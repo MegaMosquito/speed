@@ -14,7 +14,7 @@ import time
 import speedtest
 
 # How long to pause between runs of the test (in seconds)
-SECONDS_BETWEEN_TESTS = os.environ['SECONDS_BETWEEN_TESTS']
+SECONDS_BETWEEN_TESTS = int(os.environ['SECONDS_BETWEEN_TESTS'])
 #SECONDS_BETWEEN_TESTS = 20
 
 # REST API details
@@ -26,15 +26,17 @@ webapp = Flask('speedtest')
 last_test_results = None
 
 # Run one speedtest (seems to take about 25 seconds on RPi3B)
-def run_speedtest():
-  servers = []
-  s = speedtest.Speedtest()
-  s.get_servers(servers)
-  s.get_best_server()
-  s.download()
-  s.upload()
-  s.results.share()
-  return s.results.dict()
+class Speed:
+  @staticmethod
+  def run_speedtest():
+    servers = []
+    s = speedtest.Speedtest()
+    s.get_servers(servers)
+    s.get_best_server()
+    s.download()
+    s.upload()
+    s.results.share()
+    return s.results.dict()
  
 # Loop forever running the test
 class SpeedTestThread(threading.Thread):
@@ -45,7 +47,7 @@ class SpeedTestThread(threading.Thread):
     while True:
       #print("\n\nRunning SpeedTest #" + str(t) + "...\n")
       t += 1
-      last_test_results = run_speedtest()
+      last_test_results = Speed.run_speedtest()
       #print(json.dumps(last_test_results))
       #print("\nSleeping for " + str(SECONDS_BETWEEN_TESTS) + " seconds...\n")
       time.sleep(SECONDS_BETWEEN_TESTS)

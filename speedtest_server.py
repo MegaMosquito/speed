@@ -7,14 +7,15 @@
 
 from flask import Flask
 import json
+import os
 import subprocess
 import threading
 import time
 import speedtest
 
 # How long to pause between runs of the test (in seconds)
+SECONDS_BETWEEN_TESTS = os.environ['SECONDS_BETWEEN_TESTS']
 #SECONDS_BETWEEN_TESTS = 20
-SECONDS_BETWEEN_TESTS = (60 * 15)
 
 # REST API details
 REST_API_BIND_ADDRESS = '0.0.0.0'

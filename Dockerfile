@@ -9,7 +9,7 @@ RUN apk --no-cache --update add jq vim
 # Install the SpeedTest CLI
 RUN pip install speedtest-cli
 
-# Might need this approach on otherplatforms
+# Might need this approach on other platforms
 #RUN git clone https://github.com/sivel/speedtest-cli.git
 #RUN cd speedtest-cli; python setup.py install
 
